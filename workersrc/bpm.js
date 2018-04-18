@@ -1415,7 +1415,7 @@ ace.define("ace/worker/mirror", ["require", "exports", "module", "ace/range", "a
 
 });
 
-ace.define('ace/mode/trd_worker', [
+ace.define('ace/mode/bpm_worker', [
     "require", 
     'exports', 
     'module', 
@@ -1426,13 +1426,13 @@ ace.define('ace/mode/trd_worker', [
     var oop = acequire('ace/lib/oop');
     var Mirror = acequire('ace/worker/mirror').Mirror;
     var antlr4 = window.reactiveAntlr.antlr4;
-    var TrdLexer = window.reactiveAntlr.RULANGLexer;
-    var TrdParser = window.reactiveAntlr.RULANGParser;
-    var TrdWorker = function (sender) {
+    // var TrdLexer = window.reactiveAntlr.RULANGLexer;
+    // var TrdParser = window.reactiveAntlr.RULANGParser;
+    var BPMWorker = function (sender) {
         Mirror.call(this, sender);
         this.setTimeout(200);
     };
-    oop.inherits(TrdWorker, Mirror);
+    oop.inherits(BPMWorker, Mirror);
 
     var AnnotatingErrorListener = function(annotations) {
         antlr4.error.ErrorListener.call(this);
@@ -1453,15 +1453,17 @@ ace.define('ace/mode/trd_worker', [
     };
 
     function validate (input) {
-        var stream = antlr4.CharStreams.fromString(input);
-        var lexer = new TrdLexer.RULANGLexer(stream);
-        var tokens = new antlr4.CommonTokenStream(lexer);
-        var parser = new TrdParser.RULANGParser(tokens);
-        var annotations = [];
-        var listener = new AnnotatingErrorListener(annotations)
-        parser.removeErrorListeners();
-        parser.addErrorListener(listener);
-        parser.goal();
+        console.log(input);
+        // var stream = antlr4.CharStreams.fromString(input);
+        // var lexer = new TrdLexer.RULANGLexer(stream);
+        // var tokens = new antlr4.CommonTokenStream(lexer);
+        // var parser = new TrdParser.RULANGParser(tokens);
+        // var annotations = [];
+        // var listener = new AnnotatingErrorListener(annotations)
+        // parser.removeErrorListeners();
+        // parser.addErrorListener(listener);
+        // parser.goal();
+
         return annotations;
     };
 
@@ -1472,8 +1474,8 @@ ace.define('ace/mode/trd_worker', [
             var annotations = validate(value);
             this.sender.emit('annotate', annotations);
         };
-    }).call(TrdWorker.prototype);
+    }).call(BPMWorker.prototype);
     console.log('worker end')
-    exports.TrdWorker = TrdWorker;
+    exports.BPMWorker = BPMWorker;
 });
 
