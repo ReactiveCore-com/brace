@@ -90,7 +90,7 @@ ace.define('ace/mode/bpm',
             this.$id = 'ace/mode/bpm';
             this.createWorker = function (session) {
                 // to get the worker, acequire, instead of acequire, must be used
-                this.$worker = new WorkerClient(["ace"], require("../worker/bpm"), "BPMWorker");
+                this.$worker = new WorkerClient(["ace"], acequire("../worker/bpm"), "BPMWorker");
                 this.$worker.attachToDocument(session.getDocument());
 
                 this.$worker.on('errors', function (e) {
