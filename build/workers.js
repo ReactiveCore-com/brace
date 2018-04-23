@@ -4,6 +4,7 @@ var workers = module.exports =  {
   javascript :  [ 'coldfusion', 'curly', 'django', 'groovy', 'html', 'java', 'javascript', 'luapage', 'markdown', 'rhtml', 'scala', 'svg', 'typescript' ]
   , json       :  [ 'json' ]
   , trd        :  [ 'trd' ]
+  , bpm        : [ 'bpm' ]
 };
 
 module.exports.supported = Object.keys(workers)
