@@ -1,6 +1,6 @@
 ace.define('ace/mode/bpm_highlight_rules', function (acequire, exports, module) {
     var BPMHighLightRules = function () {
-        
+
         // regexp must not have capturing parentheses. Use (?:) instead.
         // regexps are ordered -> the first match is used
         this.$rules = {
@@ -100,7 +100,11 @@ ace.define('ace/mode/bpm',
                 this.$worker.on('annotate', function (e) {
                     console.log('annotate');
                     console.log(e);
-                    session.setAnnotations(e.data);
+                    if (e.data.length > 0 ) {
+                      session.setAnnotations(JSON.parse(e.data));
+                    } else {
+                      session.setAnnotations(e.data);
+                    }
                 });
 
                 this.$worker.on('terminate', function () {

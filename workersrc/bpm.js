@@ -1,6 +1,6 @@
 "no use strict";
 !(function(window) {
-    importScripts(self.location.origin + "/assets/lib/bmplang-compiler-fastop.js");
+    importScripts(self.location.origin + "/assets/lib/bpmlang-compiler-fastopt.js");
     console.log(self);
     var window = self;
 
@@ -1422,60 +1422,32 @@ ace.define('ace/mode/bpm_worker', [
     'ace/lib/oop', 
     'ace/worker/mirror'
 ], function (acequire, exports, module) {
-    console.log('worker start');
     var oop = acequire('ace/lib/oop');
     var Mirror = acequire('ace/worker/mirror').Mirror;
-    var antlr4 = window.reactiveAntlr.antlr4;
-    // var TrdLexer = window.reactiveAntlr.RULANGLexer;
-    // var TrdParser = window.reactiveAntlr.RULANGParser;
     var BPMWorker = function (sender) {
         Mirror.call(this, sender);
         this.setTimeout(200);
     };
     oop.inherits(BPMWorker, Mirror);
-
-    var AnnotatingErrorListener = function(annotations) {
-        antlr4.error.ErrorListener.call(this);
-        this.annotations = annotations;
-        return this;
-    };
-
-    AnnotatingErrorListener.prototype = Object.create(antlr4.error.ErrorListener.prototype);
-    AnnotatingErrorListener.prototype.constructor = AnnotatingErrorListener;
-
-    AnnotatingErrorListener.prototype.syntaxError = function(recognizer, offendingSymbol, line, column, msg, e) {
-        this.annotations.push({
-            row: line - 1,
-            column: column,
-            text: msg,
-            type: "error"
-        });
-    };
-
     function validate (input) {
-        console.log(input);
-        // var stream = antlr4.CharStreams.fromString(input);
-        // var lexer = new TrdLexer.RULANGLexer(stream);
-        // var tokens = new antlr4.CommonTokenStream(lexer);
-        // var parser = new TrdParser.RULANGParser(tokens);
-        // var annotations = [];
-        // var listener = new AnnotatingErrorListener(annotations)
-        // parser.removeErrorListeners();
-        // parser.addErrorListener(listener);
-        // parser.goal();
-
+    
+        var annotations = [];
+        try {
+            var res = self.BPMLangCompiler.compile(input);
+        } catch( error ) {
+            annotations = error.errors;
+        }
+        
         return annotations;
     };
 
     (function () {
         this.onUpdate = function () {
-            console.log(this.doc);
             var value = this.doc.getValue();
             var annotations = validate(value);
             this.sender.emit('annotate', annotations);
         };
     }).call(BPMWorker.prototype);
-    console.log('worker end')
     exports.BPMWorker = BPMWorker;
 });
 
