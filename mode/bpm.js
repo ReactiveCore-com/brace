@@ -101,7 +101,7 @@ ace.define('ace/mode/bpm',
                     console.log('annotate');
                     console.log(e);
                     if (e.data.length > 0 ) {
-                      session.setAnnotations(JSON.parse(e.data));
+                      session.setAnnotations(e.data);
                     } else {
                       session.setAnnotations(e.data);
                     }
