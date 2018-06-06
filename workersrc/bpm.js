@@ -1445,6 +1445,10 @@ ace.define('ace/mode/bpm_worker', [
         this.onUpdate = function () {
             var value = this.doc.getValue();
             var annotations = validate(value);
+            var compiled = self.BPMLangCompiler.compile(value);
+            if (annotations.length == 0) {
+                this.sender.emit('compiled', compiled);
+            }
             this.sender.emit('annotate', annotations);
         };
     }).call(BPMWorker.prototype);

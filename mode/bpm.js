@@ -111,6 +111,12 @@ ace.define('ace/mode/bpm',
                     session.clearAnnotations();
                 });
 
+                this.$worker.on('compiled', function (e) {
+                    console.log('compiled');
+                    console.log(e);
+                    window.compiled = e;
+                })
+
                 return this.$worker;
 
             };

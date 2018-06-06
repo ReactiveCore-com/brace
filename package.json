@@ -1,6 +1,6 @@
 {
   "name": "rc-brace",
-  "version": "1.0.0-bpm.12",
+  "version": "1.0.0-serialize.6",
   "description": "browserify compatible version of the ace editor.",
   "main": "index.js",
   "typings": "index.d.ts",
